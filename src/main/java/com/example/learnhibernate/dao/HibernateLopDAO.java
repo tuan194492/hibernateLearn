@@ -24,8 +24,9 @@ public class HibernateLopDAO implements LopDAO{
     @Override
     public void xoaLop(Lop lop) {
         Session session = HibernateUtils.getSession();
+        Lop target = session.get(Lop.class, lop.getId());
         session.beginTransaction();
-        session.delete(lop);
+        session.delete(target);
         session.getTransaction().commit();
     }
 
@@ -38,8 +39,11 @@ public class HibernateLopDAO implements LopDAO{
     @Override
     public void updateLop(Lop lop) {
         Session session = HibernateUtils.getSession();
+        Lop target = session.get(Lop.class, lop.getId());
         session.beginTransaction();
-        session.save(lop);
+        target.setName(lop.getName());
+        target.setLopTruong(lop.getLopTruong());
+        session.update(target);
         session.getTransaction().commit();
     }
 }

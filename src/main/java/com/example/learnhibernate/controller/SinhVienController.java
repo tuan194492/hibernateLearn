@@ -89,7 +89,10 @@ public class SinhVienController  implements Serializable {
     }
 
     public List<SinhVien> getSinhVienFromLop(Lop lop) {
-        return lop.getSinhVienList();
+        if (lop != null)
+            return lop.getSinhVienList();
+        else
+            return null;
     }
 
     @PostConstruct
