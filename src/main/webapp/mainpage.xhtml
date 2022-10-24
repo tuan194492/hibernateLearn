@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Tuan vcl</title>
+</h:head>
+<h:body>
+    <h:panelGroup id="all" >
+        <h:panelGroup id="main-page" >
+            <h:panelGroup rendered="#{mainController.isOnPage('Main')}">
+                <h:form>
+                    <h:commandButton value="Quan ly danh sach lop" >
+                        <f:ajax event="click" listener="#{mainController.changePage('Lop')}" render="all"/>
+                    </h:commandButton>
+                    <h:commandButton value="Quan ly danh sach sv" >
+                        <f:ajax event="click" listener="#{mainController.changePage('SinhVien')}" render="all"/>
+                    </h:commandButton>
+                </h:form>
+            </h:panelGroup>
+        </h:panelGroup>
+        <h:panelGroup id="quan-ly-danh-sach-lop" >
+            <h:panelGroup rendered="#{mainController.isOnPage('Lop')}">
+                <h2>Danh sach lop</h2>
+                <h:dataTable value="#{lopController.lopList}" var="lop" rendered="#{lopController.selectedLop == null}">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        <h:form>
+                            <h:commandLink value="#{lop.id}" >
+                                <f:ajax event="click" listener="#{lopController.selectLop(lop)}" render="quan-ly-danh-sach-lop" />
+                            </h:commandLink>
+
+                        </h:form>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Name</f:facet>
+                        #{lop.name}
+                    </h:column>
+                    <h:column>
+                        <h:form>
+                            <h:commandButton value="delete">
+                                <f:ajax event="click" render="quan-ly-danh-sach-lop" listener="#{lopController.deleteLop(lop)}"/>
+                            </h:commandButton>
+                        </h:form>
+                    </h:column>
+                </h:dataTable>
+                <h:form rendered="#{lopController.selectedLop == null}">
+                    <h:commandButton value="Back to homepage" >
+                        <f:ajax event="click" listener="#{mainController.changePage('Main')}" render="all" />
+                    </h:commandButton>
+                    <h:commandButton value="Them lop" >
+                        <f:ajax event="click" listener="#{lopController.createNewClass}" render="quan-ly-danh-sach-lop" />
+                    </h:commandButton>
+                </h:form>
+<!--
+                Bang hien thi chi tiet cua lop
+                                       -->
+                <h:panelGroup id="chi-tiet-lop" rendered="#{lopController.selectedLop != null}" >
+                    <h:form>
+                        <h:panelGrid columns="2" >
+                            <h:outputLabel value="ID lop"/>
+                            <h:outputLabel value="#{lopController.selectedLop.id}" />
+                            <h:outputLabel value="Ten lop"/>
+                            <h:inputText value="#{lopController.selectedLop.name}" >
+                                <f:ajax event="change" listener="#{lopController.updateLop(lopController.selectedLop)}" render="chi-tiet-lop"/>
+                            </h:inputText>
+                            <h:outputLabel value="ID lop truong"/>
+                            <h:inputText value="#{lopController.selectedLop.lopTruongId}" id="lopTruongId">
+                                <f:ajax event="change" listener="#{lopController.updateLop(lopController.selectedLop)}" render="chi-tiet-lop"/>
+                                <f:validator validatorId="classValidator" />
+                                <f:attribute name="lop" value="#{lopController.selectedLop}"/>
+                            </h:inputText>
+                            <h:message for="lopTruongId" style="color: red"/>
+                        </h:panelGrid>
+                    </h:form>
+
+
+                    <h:dataTable value="#{sinhVienController.getSinhVienFromLop(lopController.selectedLop)}" var="sv" >
+                        <h:column>
+                            <f:facet name="header">ID</f:facet>
+                            <h:form>
+                                <h:commandLink value="#{sv.id}" action="#{sinhVienController.goToEditPage(sv)}">
+                                    <f:param name="cid" value="#{mainController.conversationId}" />
+                                </h:commandLink>
+                            </h:form>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Name</f:facet>
+                            #{sv.name}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Birth</f:facet>
+                            #{sv.birth}
+                        </h:column>
+                        <h:column>
+                            <h:form>
+                                <h:commandButton value="delete">
+                                    <f:ajax event="click" render="chi-tiet-lop" listener="#{sinhVienController.deleteSinhVien(sv)}"/>
+                                </h:commandButton>
+                            </h:form>
+                        </h:column>
+                    </h:dataTable>
+                    <h:form>
+                        <h:commandButton value="Back to class list" >
+                            <f:ajax event="click" listener="#{lopController.unSelectLop}" render="all" />
+                        </h:commandButton>
+                        <h:commandButton value="Them sinh vien" action="#{sinhVienController.createSinhVien(lopController.selectedLop)}" />
+                    </h:form>
+                </h:panelGroup>
+            </h:panelGroup>
+        </h:panelGroup>
+        <h:panelGroup id="quan-ly-danh-sach-sinh-vien" >
+            <h:panelGroup rendered="#{mainController.isOnPage('SinhVien')}">
+                <h2>Danh sach sinh vien</h2>
+                <h:dataTable value="#{sinhVienController.sinhVienList}" var="sv">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        <h:form>
+                            <h:commandLink value="#{sv.id}" action="#{sinhVienController.goToEditPage(sv)}" >
+                                <f:param name="cid" value="#{mainController.conversationId}" />
+                            </h:commandLink>
+                        </h:form>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Name</f:facet>
+                        #{sv.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Birth</f:facet>
+                        #{sv.birth}
+                    </h:column>
+                    <h:column>
+                        <h:form>
+                            <h:commandButton value="delete">
+                                <f:ajax event="click" render="data-list" listener="#{sinhVienController.deleteSinhVien(sv)}"/>
+                            </h:commandButton>
+                        </h:form>
+                    </h:column>
+                </h:dataTable>
+                <h:commandButton value="Back to homepage" >
+                    <f:ajax event="click" listener="#{mainController.changePage('Main')}" render="all" />
+                </h:commandButton>
+            </h:panelGroup>
+        </h:panelGroup>
+    </h:panelGroup>
+</h:body>
+</html>
