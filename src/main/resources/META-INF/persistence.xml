@@ -4,6 +4,16 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
              version="2.2">
     <persistence-unit name="default">
-
+        <class>com.example.learnhibernate.model.Lop</class>
+        <class>com.example.learnhibernate.model.SinhVien</class>
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/quanlysinhvien"/>
+            <property name="javax.persistence.jdbc.user" value="postgres"/>
+            <property name="javax.persistence.jdbc.password" value="#Tuan267"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="connection.pool_size" value="100"/>
+            <property name="hibernate.enable_lazy_load_no_trans" value="true" />
+        </properties>
     </persistence-unit>
 </persistence>

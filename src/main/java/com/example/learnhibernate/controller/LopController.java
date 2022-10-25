@@ -1,6 +1,7 @@
 package com.example.learnhibernate.controller;
 
 import com.example.learnhibernate.dao.HibernateLopDAO;
+import com.example.learnhibernate.dao.JPALopDAO;
 import com.example.learnhibernate.dao.LopDAO;
 import com.example.learnhibernate.model.Lop;
 
@@ -31,10 +32,11 @@ public class LopController implements Serializable {
     }
 
     public LopController() {
-        lopDAO = new HibernateLopDAO();
+        lopDAO = new JPALopDAO();
         selectedLop = null;
     }
     public List<Lop> getLopList() {
+
         lopList = lopDAO.getAllLop();
         return lopList;
     }

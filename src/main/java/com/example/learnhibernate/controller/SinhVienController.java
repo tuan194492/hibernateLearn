@@ -2,15 +2,18 @@ package com.example.learnhibernate.controller;
 
 
 import com.example.learnhibernate.dao.HibernateSinhVienDAO;
+import com.example.learnhibernate.dao.JPASinhVienDAO;
 import com.example.learnhibernate.dao.SinhVienDAO;
 import com.example.learnhibernate.model.Lop;
 import com.example.learnhibernate.model.SinhVien;
 import com.example.learnhibernate.util.HibernateUtils;
+import com.example.learnhibernate.util.JPAUtils;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,7 +21,7 @@ import java.util.List;
 @ConversationScoped
 public class SinhVienController  implements Serializable {
     public SinhVienController() {
-        sinhVienDAO = new HibernateSinhVienDAO();
+        sinhVienDAO = new JPASinhVienDAO();
     }
     private final SinhVienDAO sinhVienDAO;
     private List<SinhVien> sinhVienList;
@@ -85,7 +88,10 @@ public class SinhVienController  implements Serializable {
 
     public List<SinhVien> getSinhVienFromLop(Lop lop) {
         if (lop != null) {
-            lop = HibernateUtils.getSession().get(Lop.class, lop.getId());
+//            lop = HibernateUtils.getSession().get(Lop.class, lop.getId());
+            EntityManager entityManager = JPAUtils.getEntityManagerFactory().createEntityManager();
+            lop = entityManager.find(Lop.class, lop.getId());
+            entityManager.close();
             return lop.getSinhVienList();
         }
         else
