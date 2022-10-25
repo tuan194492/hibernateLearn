@@ -29,15 +29,7 @@ public class SinhVienController  implements Serializable {
     }
 
     public void selectSinhVien(int id) {
-//        System.out.println("Hello world");
-//        for (SinhVien sinhVien : sinhVienList) {
-//            if (sinhVien.getId() == id) {
-//                selectedSinhVien = sinhVien;
-//                return;
-//            }
-//        }
         selectedSinhVien = sinhVienDAO.getSinhVienById(id);
-//        selectedSinhVien = null;
     }
 
     public void setSelectedSinhVien(SinhVien selectedSinhVien) {
@@ -87,7 +79,7 @@ public class SinhVienController  implements Serializable {
 
     public void deleteSinhVien(SinhVien sinhVien) {
         System.out.println("Delete sinh vien");
-        sinhVien.getLop().getSinhVienList().remove(sinhVien);
+//        sinhVien.getLop().getSinhVienList().remove(sinhVien);
         sinhVienDAO.xoaSinhVien(sinhVien);
     }
 

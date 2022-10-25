@@ -40,7 +40,6 @@ public class LopController implements Serializable {
     }
 
     public void deleteLop(Lop lop) {
-        lopList.remove(lop);
         lopDAO.xoaLop(lop);
     }
 

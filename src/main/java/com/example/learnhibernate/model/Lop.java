@@ -19,7 +19,7 @@ public class Lop implements Serializable {
     @JoinColumn(name = "loptruong_id", referencedColumnName = "student_id")
     private SinhVien lopTruong;
 
-    @OneToMany(mappedBy = "lop")
+    @OneToMany(mappedBy = "lop", cascade = CascadeType.ALL)
     private List<SinhVien> sinhVienList;
 
     public int getId() {
