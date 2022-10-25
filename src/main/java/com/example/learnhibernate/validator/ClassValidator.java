@@ -18,7 +18,8 @@ public class ClassValidator implements Validator {
         try {
             Lop lop = (Lop)  uiComponent.getValueExpression("lop").getValue(facesContext.getELContext());
             boolean notContain = true;
-            int lopTruongId = Integer.parseInt(o.toString());
+            SinhVien lopTruong = (SinhVien) o;
+            int lopTruongId = lopTruong.getId();
             for (SinhVien sinhVien : lop.getSinhVienList()) {
                 notContain = notContain && (sinhVien.getId() != lopTruongId);
             }

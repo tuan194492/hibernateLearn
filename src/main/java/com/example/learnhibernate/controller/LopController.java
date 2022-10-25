@@ -16,7 +16,7 @@ import java.util.List;
 public class LopController implements Serializable {
 
     private final LopDAO lopDAO;
-
+    private List<Lop> lopList;
     private Lop selectedLop;
 
     public Lop getSelectedLop() {
@@ -35,10 +35,12 @@ public class LopController implements Serializable {
         selectedLop = null;
     }
     public List<Lop> getLopList() {
-        return lopDAO.getAllLop();
+        lopList = lopDAO.getAllLop();
+        return lopList;
     }
 
     public void deleteLop(Lop lop) {
+        lopList.remove(lop);
         lopDAO.xoaLop(lop);
     }
 

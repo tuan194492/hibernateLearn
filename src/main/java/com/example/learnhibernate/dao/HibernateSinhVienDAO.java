@@ -2,6 +2,7 @@ package com.example.learnhibernate.dao;
 
 import com.example.learnhibernate.model.SinhVien;
 import com.example.learnhibernate.util.HibernateUtils;
+import com.sun.media.sound.SoftChannelProxy;
 import org.hibernate.Session;
 
 import java.util.List;
@@ -30,16 +31,22 @@ public class HibernateSinhVienDAO implements SinhVienDAO{
     @Override
     public void xoaSinhVien(SinhVien sinhVien) {
         Session session = HibernateUtils.getSession();
+        SinhVien target = session.get(SinhVien.class, sinhVien.getId());
         session.beginTransaction();
-        session.delete(sinhVien);
+        session.delete(target);
         session.getTransaction().commit();
     }
 
     @Override
     public void updateSinhVien(SinhVien sinhVien) {
         Session session = HibernateUtils.getSession();
+        SinhVien target = session.get(SinhVien.class, sinhVien.getId());
         session.beginTransaction();
-        session.save(sinhVien);
+        target.setName(sinhVien.getName());
+        target.setBirth(sinhVien.getBirth());
+        target.setLop(sinhVien.getLop());
+        session.save(target);
         session.getTransaction().commit();
     }
+
 }

@@ -30,8 +30,10 @@
                 </h:inputText>
                 <h:message for="birth" style="color: red" />
                 <h:outputLabel value="ID lop" />
-                <h:inputText value="#{sinhVienController.selectedSinhVien.lop.id}" id="classId">
+                <h:inputText value="#{sinhVienController.selectedSinhVien.lop}" id="classId">
                     <f:ajax event="change" listener="#{sinhVienController.saveSinhVien(sinhVienController.selectedSinhVien)}"/>
+                    <f:validator validatorId="studentValidator" />
+                    <f:converter converterId="classConverter" />
                 </h:inputText>
                 <h:message for="classId" style="color: red" />
             </h:panelGrid>

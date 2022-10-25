@@ -5,6 +5,7 @@ import com.example.learnhibernate.dao.HibernateSinhVienDAO;
 import com.example.learnhibernate.dao.SinhVienDAO;
 import com.example.learnhibernate.model.Lop;
 import com.example.learnhibernate.model.SinhVien;
+import com.example.learnhibernate.util.HibernateUtils;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -29,13 +30,14 @@ public class SinhVienController  implements Serializable {
 
     public void selectSinhVien(int id) {
 //        System.out.println("Hello world");
-        for (SinhVien sinhVien : sinhVienList) {
-            if (sinhVien.getId() == id) {
-                selectedSinhVien = sinhVien;
-                return;
-            }
-        }
-        selectedSinhVien = null;
+//        for (SinhVien sinhVien : sinhVienList) {
+//            if (sinhVien.getId() == id) {
+//                selectedSinhVien = sinhVien;
+//                return;
+//            }
+//        }
+        selectedSinhVien = sinhVienDAO.getSinhVienById(id);
+//        selectedSinhVien = null;
     }
 
     public void setSelectedSinhVien(SinhVien selectedSinhVien) {
@@ -85,12 +87,15 @@ public class SinhVienController  implements Serializable {
 
     public void deleteSinhVien(SinhVien sinhVien) {
         System.out.println("Delete sinh vien");
+        sinhVien.getLop().getSinhVienList().remove(sinhVien);
         sinhVienDAO.xoaSinhVien(sinhVien);
     }
 
     public List<SinhVien> getSinhVienFromLop(Lop lop) {
-        if (lop != null)
+        if (lop != null) {
+            lop = HibernateUtils.getSession().get(Lop.class, lop.getId());
             return lop.getSinhVienList();
+        }
         else
             return null;
     }

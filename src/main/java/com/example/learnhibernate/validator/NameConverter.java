@@ -14,8 +14,12 @@ public class NameConverter implements Converter {
         for (int i = 0; i < stringList.length; i ++) {
             if (stringList[i].length() >= 2)
                 stringList[i] = stringList[i].substring(0, 1).toUpperCase() + stringList[i].substring(1);
-            else
-                stringList[i] = stringList[i].substring(0,1).toUpperCase();
+            else {
+                if (stringList[i].length() > 1)
+                    stringList[i] = stringList[i].substring(0, 1).toUpperCase();
+                else
+                    stringList[i] = stringList[i].toUpperCase();
+            }
             result.append(stringList[i]);
             result.append(" ");
         }
@@ -28,7 +32,10 @@ public class NameConverter implements Converter {
         String[] stringList = o.toString().split(" ");
         StringBuilder result = new StringBuilder("");
         for (int i = 0; i < stringList.length; i ++) {
-            stringList[i] = stringList[i].substring(0, 1).toUpperCase() + stringList[i].substring(1);
+            if (stringList[i].length() > 1)
+                stringList[i] = stringList[i].substring(0, 1).toUpperCase() + stringList[i].substring(1);
+            else
+                stringList[i] = stringList[i].toUpperCase();
             result.append(stringList[i]);
             result.append(" ");
         }

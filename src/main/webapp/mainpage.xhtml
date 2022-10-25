@@ -68,10 +68,11 @@
                                 <f:ajax event="change" listener="#{lopController.updateLop(lopController.selectedLop)}" render="chi-tiet-lop"/>
                             </h:inputText>
                             <h:outputLabel value="ID lop truong"/>
-                            <h:inputText value="#{lopController.selectedLop.lopTruong.id}" id="lopTruongId">
+                            <h:inputText value="#{lopController.selectedLop.lopTruong}" id="lopTruongId">
                                 <f:ajax event="change" listener="#{lopController.updateLop(lopController.selectedLop)}" render="chi-tiet-lop"/>
                                 <f:validator validatorId="classValidator" />
                                 <f:attribute name="lop" value="#{lopController.selectedLop}"/>
+                                <f:converter converterId="studentConverter"/>
                             </h:inputText>
                             <h:message for="lopTruongId" style="color: red"/>
                         </h:panelGrid>
