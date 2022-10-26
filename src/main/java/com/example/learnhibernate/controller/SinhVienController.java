@@ -82,7 +82,6 @@ public class SinhVienController  implements Serializable {
 
     public void deleteSinhVien(SinhVien sinhVien) {
         System.out.println("Delete sinh vien");
-//        sinhVien.getLop().getSinhVienList().remove(sinhVien);
         sinhVienDAO.xoaSinhVien(sinhVien);
     }
 

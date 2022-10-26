@@ -42,6 +42,13 @@ public class JPASinhVienDAO implements SinhVienDAO{
         EntityManager entityManager = emf.createEntityManager();
         entityManager.getTransaction().begin();
         SinhVien target = entityManager.find(SinhVien.class, sinhVien.getId());
+        if (target.getLop().getLopTruong().getId() == target.getId()) {
+            target.getLop().setLopTruong(null);
+        }
+        entityManager.persist(target.getLop());
+//        boolean a = entityManager.contains(sinhVien);
+//        boolean b = entityManager.contains(entityManager.merge(sinhVien));
+//        SinhVien target = entityManager.merge(sinhVien);
         entityManager.remove(target);
         entityManager.getTransaction().commit();
         entityManager.close();

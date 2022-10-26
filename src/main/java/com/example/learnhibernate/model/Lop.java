@@ -15,7 +15,7 @@ public class Lop implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "loptruong_id", referencedColumnName = "student_id")
     private SinhVien lopTruong;
 
